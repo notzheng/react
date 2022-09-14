@@ -41,7 +41,7 @@ import {
   enableCPUSuspense,
   enableUseMutableSource,
 } from 'shared/ReactFeatureFlags';
-
+import {OffscreenDetached} from './ReactFiberOffscreenComponent';
 import checkPropTypes from 'shared/checkPropTypes';
 import {
   markComponentRenderStarted,
@@ -681,7 +681,9 @@ function updateOffscreenComponent(
 
   if (
     nextProps.mode === 'hidden' ||
-    (enableLegacyHidden && nextProps.mode === 'unstable-defer-without-hiding')
+    (enableLegacyHidden &&
+      nextProps.mode === 'unstable-defer-without-hiding') ||
+    workInProgress.stateNode._visibility & OffscreenDetached
   ) {
     // Rendering a hidden tree.
 
